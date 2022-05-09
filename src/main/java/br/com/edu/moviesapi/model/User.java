@@ -1,9 +1,10 @@
 package br.com.edu.moviesapi.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,8 +36,10 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles = new ArrayList<>();
-
+    @ElementCollection
+    @CollectionTable(name="roles")
+    private List<Role> roles;
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles;
